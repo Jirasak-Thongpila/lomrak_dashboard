@@ -9,12 +9,14 @@ import {
   AlertCircle,
   Radio,
 } from "lucide-react";
+import type { SseConnectionStatus } from "@/types/lomrak";
 
 interface HeaderProps {
   source: "google_sheets" | "fallback_cache";
   updatedAt: string;
   isRefreshing: boolean;
   isSilentSyncing?: boolean;
+  sseStatus?: SseConnectionStatus;
   onRefresh: () => void;
   onExportCsv: () => void;
   onOpenGasSetup: () => void;
@@ -25,6 +27,7 @@ export function Header({
   updatedAt,
   isRefreshing,
   isSilentSyncing = false,
+  sseStatus = "connected",
   onRefresh,
   onExportCsv,
   onOpenGasSetup,
@@ -59,25 +62,37 @@ export function Header({
         </div>
 
         <div className="flex flex-wrap items-center gap-2.5">
-          {/* Live Auto-Sync Indicator */}
+          {/* Real-Time SSE Indicator */}
           <div
-            title="ระบบดึงข้อมูลสด On-The-Fly อัตโนมัติเมื่อสลับแท็บ และทุก 30 วินาที"
+            title="ระบบ Real-Time Event-Driven: ดึงข้อมูลสดเฉพาะเมื่อ Google Sheet มีการแก้ไข หรือสลับแท็บกลับมา"
             className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-medium bg-slate-950/70 border border-slate-800 text-slate-300"
           >
             <span className="relative flex h-2 w-2">
               <span
                 className={`animate-ping absolute inline-flex h-full w-full rounded-full opacity-75 ${
-                  isSilentSyncing ? "bg-amber-400" : "bg-emerald-400"
+                  isSilentSyncing
+                    ? "bg-amber-400"
+                    : sseStatus === "connected"
+                    ? "bg-emerald-400"
+                    : "bg-slate-400"
                 }`}
               />
               <span
                 className={`relative inline-flex rounded-full h-2 w-2 ${
-                  isSilentSyncing ? "bg-amber-500" : "bg-emerald-500"
+                  isSilentSyncing
+                    ? "bg-amber-500"
+                    : sseStatus === "connected"
+                    ? "bg-emerald-500"
+                    : "bg-slate-500"
                 }`}
               />
             </span>
             <span className="text-[11px] text-slate-400">
-              {isSilentSyncing ? "กำลังซิงค์สด..." : "On-The-Fly 30s"}
+              {isSilentSyncing
+                ? "กำลังซิงค์สด..."
+                : sseStatus === "connected"
+                ? "Real-Time (รอชีตเปลี่ยน)"
+                : "สลับแท็บเพื่อซิงค์"}
             </span>
           </div>
 

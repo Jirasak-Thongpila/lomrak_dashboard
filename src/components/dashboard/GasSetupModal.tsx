@@ -40,7 +40,7 @@ export function GasSetupModal({ isOpen, onClose }: GasSetupModalProps) {
 
         <div className="p-6 overflow-y-auto space-y-5 text-sm">
           <div className="bg-emerald-950/40 border border-emerald-800/60 p-4 rounded-xl text-emerald-200">
-            <p className="font-medium text-emerald-300 mb-1">ขั้นตอนการติดตั้ง (เพียง 1 นาที):</p>
+            <p className="font-medium text-emerald-300 mb-1">ขั้นตอนการติดตั้ง (เพียง 1-2 นาที):</p>
             <ol className="list-decimal list-inside space-y-1.5 text-xs text-emerald-100/90">
               <li>เปิดโฟลเดอร์ Google Drive หรือเปิดไฟล์ <strong>หมู่บ้านชุมชนล้อมรักษ์</strong> ด้วย Google Sheets</li>
               <li>ไปที่เมนู <strong>ส่วนขยาย (Extensions) &gt; Apps Script</strong></li>
@@ -49,6 +49,15 @@ export function GasSetupModal({ isOpen, onClose }: GasSetupModalProps) {
               <li>เลือกประเภท <strong>เว็บแอป (Web app)</strong> และตั้งค่า "ผู้มีสิทธิ์เข้าถึง" เป็น <strong>ทุกคน (Anyone)</strong></li>
               <li>กด Deploy แล้วนำ URL ที่ได้มาใส่ในไฟล์ <code className="bg-slate-800 px-1 py-0.5 rounded">.env.local</code> (ตัวแปร <code className="text-emerald-300">GAS_API_URL=...</code>)</li>
             </ol>
+            <div className="mt-3 pt-3 border-t border-emerald-800/50 text-xs text-teal-300">
+              <p className="font-semibold text-emerald-300">🚀 วิธีเปิดระบบ Real-Time Push เมื่อชีตเปลี่ยน (Zero Polling):</p>
+              <p className="mt-1 text-slate-300">
+                1. ใส่ URL แดชบอร์ดของคุณที่ตัวแปร <code className="bg-slate-800 px-1 py-0.5 rounded text-emerald-300">DASHBOARD_WEBHOOK_URL = ".../api/lomrak/webhook"</code> ในโค้ด
+              </p>
+              <p className="mt-0.5 text-slate-300">
+                2. ที่แถบซ้ายของ Apps Script ไปที่ <strong>ทริกเกอร์ (รูปนาฬิกา ⏰) &gt; เพิ่มทริกเกอร์</strong> เลือกฟังก์ชัน <code className="text-emerald-300">onSheetEdit</code> แหล่งเหตุการณ์: <em>จากสเปรดชีต</em> ประเภท: <em>เมื่อแก้ไข</em> แล้วกดบันทึก
+              </p>
+            </div>
           </div>
 
           <div>

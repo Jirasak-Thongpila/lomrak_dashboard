@@ -14,6 +14,10 @@ export const GAS_CODE_TEMPLATE = `/**
  * 7. กด Deploy แล้วคัดลอก "Web app URL" มาใส่ในตัวแปร GAS_API_URL ในระบบ
  */
 
+// ตั้งค่า URL สำหรับ Webhook (แจ้งเตือน Real-Time ทันทีที่มีการแก้ไขชีต)
+// เช่น: "https://your-domain.vercel.app/api/lomrak/webhook"
+var DASHBOARD_WEBHOOK_URL = "";
+
 function doGet(e) {
   try {
     var ss = SpreadsheetApp.getActiveSpreadsheet();
@@ -80,5 +84,33 @@ function findColumnIndex(headers, aliases) {
 function createJsonResponse(data) {
   return ContentService.createTextOutput(JSON.stringify(data))
     .setMimeType(ContentService.MimeType.JSON);
+}
+
+/**
+ * ฟังก์ชันแจ้งเตือน Webhook ทันทีที่มีการแก้ไขชีต (Real-Time Push)
+ * วิธีเปิดใช้งาน:
+ * 1. ไปที่เมนู Triggers (รูปนาฬิกา ⏰ ด้านซ้ายของหน้าจอ Apps Script)
+ * 2. กดปุ่ม "+ Add Trigger" (+ เพิ่มทริกเกอร์)
+ * 3. เลือกฟังก์ชันที่จะเรียกใช้: onSheetEdit
+ * 4. เลือกประเภทของเหตุการณ์: จากสเปรดชีต (From spreadsheet) > เมื่อแก้ไข (On edit)
+ * 5. บันทึกและอนุญาตสิทธิ์ (Allow permissions)
+ */
+function onSheetEdit(e) {
+  if (!DASHBOARD_WEBHOOK_URL) return;
+  try {
+    var payload = JSON.stringify({
+      event: "edit",
+      sheetName: e && e.range ? e.range.getSheet().getName() : "Lomrak",
+      timestamp: new Date().toISOString()
+    });
+    UrlFetchApp.fetch(DASHBOARD_WEBHOOK_URL, {
+      method: "post",
+      contentType: "application/json",
+      payload: payload,
+      muteHttpExceptions: true
+    });
+  } catch (err) {
+    Logger.log("Webhook error: " + err);
+  }
 }
 `;

@@ -21,6 +21,7 @@ import type {
   LomrakRecord,
   MetricType,
   SortConfig,
+  SseConnectionStatus,
 } from "@/types/lomrak";
 
 export default function DashboardPage() {
@@ -28,6 +29,7 @@ export default function DashboardPage() {
   const [loading, setLoading] = useState(true);
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [isSilentSyncing, setIsSilentSyncing] = useState(false);
+  const [sseStatus, setSseStatus] = useState<SseConnectionStatus>("connecting");
   const [isGasModalOpen, setIsGasModalOpen] = useState(false);
 
   // Filters & State
@@ -68,19 +70,36 @@ export default function DashboardPage() {
     // 1. Initial Load
     fetchData();
 
-    // 2. Auto Tab Focus Sync (when user switches back from Google Sheets)
+    // 2. Real-Time Server-Sent Events (SSE) Stream
+    // Fetches ONLY when Google Sheet emits a change event (Zero Polling)
+    let eventSource: EventSource | null = null;
+    try {
+      eventSource = new EventSource("/api/lomrak/stream");
+
+      eventSource.onopen = () => {
+        setSseStatus("connected");
+      };
+
+      eventSource.addEventListener("data-changed", () => {
+        // Change event received from Google Sheets webhook! Fetch fresh data on-the-fly!
+        fetchData(false, true);
+      });
+
+      eventSource.onerror = () => {
+        setSseStatus("disconnected");
+      };
+    } catch {
+      setSseStatus("disconnected");
+    }
+
+    // 3. Tab Focus Sync as safety net (when user switches back from Google Sheets)
     const handleFocusSync = () => {
       const now = Date.now();
-      // Throttle: avoid rapid repeat syncs if focus occurs within 10 seconds
+      // Throttle: avoid repeat sync if triggered within 10 seconds
       if (now - lastFetchTimeRef.current > 10000) {
         fetchData(false, true);
       }
     };
-
-    // 3. Background Polling every 30 seconds
-    const intervalId = setInterval(() => {
-      fetchData(false, true);
-    }, 30000);
 
     window.addEventListener("focus", handleFocusSync);
     const handleVisibility = () => {
@@ -91,9 +110,11 @@ export default function DashboardPage() {
     document.addEventListener("visibilitychange", handleVisibility);
 
     return () => {
+      if (eventSource) {
+        eventSource.close();
+      }
       window.removeEventListener("focus", handleFocusSync);
       document.removeEventListener("visibilitychange", handleVisibility);
-      clearInterval(intervalId);
     };
   }, [fetchData]);
 
@@ -167,6 +188,7 @@ export default function DashboardPage() {
         updatedAt={dataResponse?.updatedAt || new Date().toISOString()}
         isRefreshing={isRefreshing}
         isSilentSyncing={isSilentSyncing}
+        sseStatus={sseStatus}
         onRefresh={() => fetchData(true, false)}
         onExportCsv={handleExportCsv}
         onOpenGasSetup={() => setIsGasModalOpen(true)}
