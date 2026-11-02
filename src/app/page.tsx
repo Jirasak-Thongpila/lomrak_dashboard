@@ -4,7 +4,6 @@ import { useEffect, useState, useMemo, useRef, useCallback } from "react";
 import { Header } from "@/components/dashboard/Header";
 import { FilterBar } from "@/components/dashboard/FilterBar";
 import { KpiCards } from "@/components/dashboard/KpiCards";
-import { SisaketMap } from "@/components/dashboard/SisaketMap";
 import { DistrictBarChart } from "@/components/dashboard/DistrictBarChart";
 import { YearlyTrendChart } from "@/components/dashboard/YearlyTrendChart";
 import { DataTable } from "@/components/dashboard/DataTable";
@@ -180,9 +179,9 @@ export default function DashboardPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-slate-950 flex flex-col items-center justify-center space-y-4">
-        <div className="w-12 h-12 border-4 border-emerald-500/20 border-t-emerald-500 rounded-full animate-spin" />
-        <p className="text-sm text-slate-400 animate-pulse font-medium">
+      <div className="min-h-screen bg-slate-50 flex flex-col items-center justify-center space-y-4">
+        <div className="w-12 h-12 border-4 border-emerald-500/20 border-t-emerald-600 rounded-full animate-spin" />
+        <p className="text-sm text-slate-600 animate-pulse font-medium">
           กำลังโหลดข้อมูลโครงการหมู่บ้านชุมชนล้อมรักษ์...
         </p>
       </div>
@@ -190,7 +189,7 @@ export default function DashboardPage() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col">
+    <div className="min-h-screen bg-slate-50 text-slate-800 flex flex-col">
       <Header
         source={dataResponse?.source || "fallback_cache"}
         updatedAt={dataResponse?.updatedAt || new Date().toISOString()}
@@ -219,24 +218,16 @@ export default function DashboardPage() {
 
         <KpiCards metrics={kpis} selectedYear={selectedYear} />
 
-        {/* Map & District Bar Chart */}
+        {/* Charts Grid: District Ranking & Yearly Trends */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <SisaketMap
-            districtData={districtSummaries}
-            metric={metric}
-            selectedDistrict={selectedDistrict}
-            onSelectDistrict={handleDistrictSelect}
-          />
           <DistrictBarChart
             data={districtSummaries}
             metric={metric}
             selectedDistrict={selectedDistrict}
             onSelectDistrict={handleDistrictSelect}
           />
+          <YearlyTrendChart data={yearlyTrends} />
         </div>
-
-        {/* Yearly Trend Chart */}
-        <YearlyTrendChart data={yearlyTrends} />
 
         {/* Data Table */}
         <DataTable
@@ -247,7 +238,7 @@ export default function DashboardPage() {
         />
       </main>
 
-      <footer className="border-t border-slate-900 bg-slate-950/80 py-5 text-center text-xs text-slate-500">
+      <footer className="border-t border-slate-200 bg-white py-5 text-center text-xs text-slate-500">
         <p>
           ระบบสารสนเทศโครงการหมู่บ้านชุมชนล้อมรักษ์ จังหวัดศรีสะเกษ • พัฒนาด้วย Next.js 16, React 19 & Tailwind CSS v4
         </p>
