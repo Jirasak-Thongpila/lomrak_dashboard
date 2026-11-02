@@ -2,19 +2,22 @@ import { NextResponse } from "next/server";
 import fallbackRecords from "@/data/fallback-lomrak.json";
 import type { LomrakApiResponse, LomrakRecord } from "@/types/lomrak";
 
-
 export async function GET(request: Request) {
-  const { searchParams } = new URL(request.url);
-  const forceRefresh = searchParams.get("refresh") === "true";
   const gasUrl = process.env.GAS_API_URL || process.env.NEXT_PUBLIC_GAS_API_URL;
+
+  const noCacheHeaders = {
+    "Cache-Control": "no-store, no-cache, must-revalidate, proxy-revalidate",
+    Pragma: "no-cache",
+    Expires: "0",
+  };
 
   if (gasUrl) {
     try {
-      const fetchOptions: RequestInit = forceRefresh
-        ? { cache: "no-store" }
-        : { next: { revalidate: 300 } };
-
-      const res = await fetch(gasUrl, fetchOptions);
+      // On-The-Fly: fetch live data on every single request with 8s timeout guard
+      const res = await fetch(gasUrl, {
+        cache: "no-store",
+        signal: AbortSignal.timeout(8000),
+      });
 
       if (res.ok) {
         const json = await res.json();
@@ -41,12 +44,12 @@ export async function GET(request: Request) {
               totalRecords: validatedData.length,
               data: validatedData,
             };
-            return NextResponse.json(successResponse);
+            return NextResponse.json(successResponse, { headers: noCacheHeaders });
           }
         }
       }
     } catch (err: any) {
-      console.warn("GAS Web App fetch failed, reverting to fallback data:", err?.message);
+      console.warn("GAS Web App On-The-Fly fetch failed, reverting to fallback data:", err?.message);
     }
   }
 
@@ -59,5 +62,5 @@ export async function GET(request: Request) {
     data: fallbackRecords as LomrakRecord[],
   };
 
-  return NextResponse.json(fallbackResponse);
+  return NextResponse.json(fallbackResponse, { headers: noCacheHeaders });
 }
