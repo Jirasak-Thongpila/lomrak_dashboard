@@ -16,10 +16,10 @@ interface YearlyTrendChartProps {
 
 export function YearlyTrendChart({ data }: YearlyTrendChartProps) {
   return (
-    <div className="bg-slate-900/70 border border-slate-800 rounded-2xl p-5">
+    <div className="bg-white border border-pink-100 rounded-2xl p-5 shadow-sm">
       <div className="mb-4">
-        <h3 className="font-semibold text-white text-sm">แนวโน้มการดำเนินงานรายปี พ.ศ.</h3>
-        <p className="text-xs text-slate-400">เปรียบเทียบการเติบโตของผู้ป่วยบำบัดและจำนวนชุมชน</p>
+        <h3 className="font-bold text-slate-900 text-base">แนวโน้มการดำเนินงานรายปี พ.ศ.</h3>
+        <p className="text-xs text-slate-500">เปรียบเทียบการเติบโตของผู้ป่วยบำบัดและจำนวนชุมชน</p>
       </div>
 
       <div className="h-72 w-full">
@@ -27,12 +27,12 @@ export function YearlyTrendChart({ data }: YearlyTrendChartProps) {
           <AreaChart data={data} margin={{ top: 10, right: 10, left: -20, bottom: 5 }}>
             <defs>
               <linearGradient id="patientsColor" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor="#10b981" stopOpacity={0.4} />
-                <stop offset="95%" stopColor="#10b981" stopOpacity={0.0} />
+                <stop offset="5%" stopColor="#ec4899" stopOpacity={0.4} />
+                <stop offset="95%" stopColor="#ec4899" stopOpacity={0.0} />
               </linearGradient>
               <linearGradient id="communitiesColor" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor="#38bdf8" stopOpacity={0.4} />
-                <stop offset="95%" stopColor="#38bdf8" stopOpacity={0.0} />
+                <stop offset="5%" stopColor="#d946ef" stopOpacity={0.4} />
+                <stop offset="95%" stopColor="#d946ef" stopOpacity={0.0} />
               </linearGradient>
             </defs>
             <XAxis dataKey="year" stroke="#64748b" fontSize={11} />
@@ -41,12 +41,12 @@ export function YearlyTrendChart({ data }: YearlyTrendChartProps) {
               content={({ active, payload, label }) => {
                 if (active && payload && payload.length) {
                   return (
-                    <div className="bg-slate-950 border border-slate-800 p-3 rounded-xl shadow-xl text-xs space-y-1">
-                      <p className="font-semibold text-emerald-300">ประจำปี พ.ศ. {label}</p>
-                      <p className="text-emerald-400">
+                    <div className="bg-white border border-pink-200 p-3 rounded-xl shadow-xl text-xs space-y-1">
+                      <p className="font-semibold text-pink-700">ประจำปี พ.ศ. {label}</p>
+                      <p className="text-pink-600">
                         ผู้ป่วยบำบัด: <strong>{payload[0]?.value} ราย</strong>
                       </p>
-                      <p className="text-sky-400">
+                      <p className="text-fuchsia-500">
                         ชุมชนล้อมรักษ์: <strong>{payload[1]?.value} แห่ง</strong>
                       </p>
                     </div>
@@ -62,7 +62,7 @@ export function YearlyTrendChart({ data }: YearlyTrendChartProps) {
             <Area
               type="monotone"
               dataKey="totalPatients"
-              stroke="#10b981"
+              stroke="#ec4899"
               strokeWidth={2}
               fillOpacity={1}
               fill="url(#patientsColor)"
@@ -70,7 +70,7 @@ export function YearlyTrendChart({ data }: YearlyTrendChartProps) {
             <Area
               type="monotone"
               dataKey="totalCommunities"
-              stroke="#38bdf8"
+              stroke="#d946ef"
               strokeWidth={2}
               fillOpacity={1}
               fill="url(#communitiesColor)"
