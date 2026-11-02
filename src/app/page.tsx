@@ -72,7 +72,29 @@ export default function DashboardPage() {
     // 1. Initial Load
     fetchData();
 
-    // 2. Tab Focus Sync as safety net (when user switches back from Google Sheets)
+    // 2. Real-Time Server-Sent Events (SSE) Stream
+    // Fetches ONLY when Google Sheet emits a change event (Zero Polling)
+    let eventSource: EventSource | null = null;
+    try {
+      eventSource = new EventSource("/api/lomrak/stream");
+
+      eventSource.onopen = () => {
+        setSseStatus("connected");
+      };
+
+      eventSource.addEventListener("data-changed", () => {
+        // Change event received from Google Sheets webhook! Fetch fresh data on-the-fly!
+        fetchData(false, true);
+      });
+
+      eventSource.onerror = () => {
+        setSseStatus("disconnected");
+      };
+    } catch {
+      setSseStatus("disconnected");
+    }
+
+    // 3. Tab Focus Sync as safety net (when user switches back from Google Sheets)
     const handleFocusSync = () => {
       const now = Date.now();
       // Throttle: avoid repeat sync if triggered within 10 seconds
@@ -90,6 +112,9 @@ export default function DashboardPage() {
     document.addEventListener("visibilitychange", handleVisibility);
 
     return () => {
+      if (eventSource) {
+        eventSource.close();
+      }
       window.removeEventListener("focus", handleFocusSync);
       document.removeEventListener("visibilitychange", handleVisibility);
     };
