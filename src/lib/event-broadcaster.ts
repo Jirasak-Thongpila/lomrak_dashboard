@@ -32,7 +32,7 @@ class EventBroadcaster {
   }
 }
 
-// Preserve single instance on globalThis across Hot Module Replacement (HMR) in Next.js dev
+// Preserve single instance on globalThis across Hot Module Replacement (HMR) and route chunks in Node.js
 const globalForBroadcaster = globalThis as unknown as {
   lomrakEventBroadcaster?: EventBroadcaster;
 };
@@ -40,6 +40,5 @@ const globalForBroadcaster = globalThis as unknown as {
 export const eventBroadcaster =
   globalForBroadcaster.lomrakEventBroadcaster ?? new EventBroadcaster();
 
-if (process.env.NODE_ENV !== "production") {
-  globalForBroadcaster.lomrakEventBroadcaster = eventBroadcaster;
-}
+// Unconditionally bind to globalThis so all route chunks share the same instance in dev and production
+globalForBroadcaster.lomrakEventBroadcaster = eventBroadcaster;
