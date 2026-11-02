@@ -7,7 +7,7 @@ import {
   HeartPulse,
   CheckCircle2,
   AlertCircle,
-  Radio,
+  HelpCircle,
 } from "lucide-react";
 import type { SseConnectionStatus } from "@/types/lomrak";
 
@@ -20,6 +20,7 @@ interface HeaderProps {
   onRefresh: () => void;
   onExportCsv: () => void;
   onOpenGasSetup: () => void;
+  onOpenProjectInfo?: () => void;
 }
 
 export function Header({
@@ -31,6 +32,7 @@ export function Header({
   onRefresh,
   onExportCsv,
   onOpenGasSetup,
+  onOpenProjectInfo,
 }: HeaderProps) {
   const isOnline = source === "google_sheets";
   const formattedTime = new Date(updatedAt).toLocaleTimeString("th-TH", {
@@ -54,6 +56,16 @@ export function Header({
               <span className="bg-emerald-500/20 text-emerald-300 text-xs px-2.5 py-0.5 rounded-full font-medium border border-emerald-500/30">
                 จ.ศรีสะเกษ
               </span>
+              {onOpenProjectInfo && (
+                <button
+                  onClick={onOpenProjectInfo}
+                  className="flex items-center gap-1 text-[11px] bg-slate-800/80 hover:bg-slate-700 text-emerald-400 px-2 py-0.5 rounded-lg border border-slate-700/80 transition"
+                  title="ดูรายละเอียดโครงการ CBTx และชุมชนล้อมรักษ์"
+                >
+                  <HelpCircle className="w-3.5 h-3.5" />
+                  <span>เกี่ยวกับโครงการ</span>
+                </button>
+              )}
             </div>
             <p className="text-xs text-slate-400">
               ระบบสารสนเทศติดตามและประเมินผลโครงการบำบัดฟื้นฟูโดยชุมชนเป็นศูนย์กลาง (CBTx)

@@ -9,6 +9,7 @@ import { DistrictBarChart } from "@/components/dashboard/DistrictBarChart";
 import { YearlyTrendChart } from "@/components/dashboard/YearlyTrendChart";
 import { DataTable } from "@/components/dashboard/DataTable";
 import { GasSetupModal } from "@/components/dashboard/GasSetupModal";
+import { ProjectInfoModal } from "@/components/dashboard/ProjectInfoModal";
 import {
   aggregateByDistrict,
   aggregateByYear,
@@ -29,8 +30,9 @@ export default function DashboardPage() {
   const [loading, setLoading] = useState(true);
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [isSilentSyncing, setIsSilentSyncing] = useState(false);
-  const [sseStatus, setSseStatus] = useState<SseConnectionStatus>("connecting");
+  const [sseStatus, setSseStatus] = useState<SseConnectionStatus>("connected");
   const [isGasModalOpen, setIsGasModalOpen] = useState(false);
+  const [isProjectInfoOpen, setIsProjectInfoOpen] = useState(false);
 
   // Filters & State
   const [selectedYear, setSelectedYear] = useState<number | "all">("all");
@@ -70,29 +72,7 @@ export default function DashboardPage() {
     // 1. Initial Load
     fetchData();
 
-    // 2. Real-Time Server-Sent Events (SSE) Stream
-    // Fetches ONLY when Google Sheet emits a change event (Zero Polling)
-    let eventSource: EventSource | null = null;
-    try {
-      eventSource = new EventSource("/api/lomrak/stream");
-
-      eventSource.onopen = () => {
-        setSseStatus("connected");
-      };
-
-      eventSource.addEventListener("data-changed", () => {
-        // Change event received from Google Sheets webhook! Fetch fresh data on-the-fly!
-        fetchData(false, true);
-      });
-
-      eventSource.onerror = () => {
-        setSseStatus("disconnected");
-      };
-    } catch {
-      setSseStatus("disconnected");
-    }
-
-    // 3. Tab Focus Sync as safety net (when user switches back from Google Sheets)
+    // 2. Tab Focus Sync as safety net (when user switches back from Google Sheets)
     const handleFocusSync = () => {
       const now = Date.now();
       // Throttle: avoid repeat sync if triggered within 10 seconds
@@ -110,9 +90,6 @@ export default function DashboardPage() {
     document.addEventListener("visibilitychange", handleVisibility);
 
     return () => {
-      if (eventSource) {
-        eventSource.close();
-      }
       window.removeEventListener("focus", handleFocusSync);
       document.removeEventListener("visibilitychange", handleVisibility);
     };
@@ -170,6 +147,12 @@ export default function DashboardPage() {
     setSelectedDistrict((prev) => (prev === district ? null : district));
   };
 
+  const handleResetAllFilters = () => {
+    setSelectedYear("all");
+    setSearchQuery("");
+    setSelectedDistrict(null);
+  };
+
   if (loading) {
     return (
       <div className="min-h-screen bg-slate-950 flex flex-col items-center justify-center space-y-4">
@@ -192,6 +175,7 @@ export default function DashboardPage() {
         onRefresh={() => fetchData(true, false)}
         onExportCsv={handleExportCsv}
         onOpenGasSetup={() => setIsGasModalOpen(true)}
+        onOpenProjectInfo={() => setIsProjectInfoOpen(true)}
       />
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6 flex-1 w-full">
@@ -205,6 +189,7 @@ export default function DashboardPage() {
           onMetricChange={setMetric}
           selectedDistrict={selectedDistrict}
           onClearDistrict={() => setSelectedDistrict(null)}
+          onResetAllFilters={handleResetAllFilters}
         />
 
         <KpiCards metrics={kpis} selectedYear={selectedYear} />
@@ -246,6 +231,11 @@ export default function DashboardPage() {
       <GasSetupModal
         isOpen={isGasModalOpen}
         onClose={() => setIsGasModalOpen(false)}
+      />
+
+      <ProjectInfoModal
+        isOpen={isProjectInfoOpen}
+        onClose={() => setIsProjectInfoOpen(false)}
       />
     </div>
   );

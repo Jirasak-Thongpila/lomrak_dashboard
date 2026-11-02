@@ -1,7 +1,41 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { Users, Home, Award, TrendingUp, TrendingDown } from "lucide-react";
 import type { KpiMetrics } from "@/types/lomrak";
+
+function useAnimatedCounter(target: number, duration = 500, decimals = 0): string {
+  const [current, setCurrent] = useState(target);
+
+  useEffect(() => {
+    let startTime: number | null = null;
+    const startVal = current;
+    let animId: number;
+
+    const step = (timestamp: number) => {
+      if (!startTime) startTime = timestamp;
+      const progress = Math.min((timestamp - startTime) / duration, 1);
+      // Ease out cubic
+      const easeProgress = 1 - Math.pow(1 - progress, 3);
+      const val = startVal + (target - startVal) * easeProgress;
+      setCurrent(val);
+
+      if (progress < 1) {
+        animId = requestAnimationFrame(step);
+      } else {
+        setCurrent(target);
+      }
+    };
+
+    animId = requestAnimationFrame(step);
+    return () => cancelAnimationFrame(animId);
+  }, [target, duration]);
+
+  if (decimals > 0) {
+    return current.toFixed(decimals);
+  }
+  return Math.round(current).toLocaleString();
+}
 
 interface KpiCardsProps {
   metrics: KpiMetrics;
@@ -9,6 +43,11 @@ interface KpiCardsProps {
 }
 
 export function KpiCards({ metrics, selectedYear }: KpiCardsProps) {
+  const animatedPatients = useAnimatedCounter(metrics.totalPatients);
+  const animatedCommunities = useAnimatedCounter(metrics.totalCommunities);
+  const animatedTopPatients = useAnimatedCounter(metrics.topDistrict.patients);
+  const animatedAvgRatio = useAnimatedCounter(metrics.avgPatientsPerCommunity, 500, 1);
+
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
       {/* Card 1: Total Patients */}
@@ -20,8 +59,8 @@ export function KpiCards({ metrics, selectedYear }: KpiCardsProps) {
           </div>
         </div>
         <div className="mt-3 flex items-baseline gap-2">
-          <span className="text-3xl font-extrabold text-white tracking-tight">
-            {metrics.totalPatients.toLocaleString()}
+          <span className="text-3xl font-extrabold text-white tracking-tight tabular-nums">
+            {animatedPatients}
           </span>
           <span className="text-xs text-slate-400">ราย</span>
         </div>
@@ -50,8 +89,8 @@ export function KpiCards({ metrics, selectedYear }: KpiCardsProps) {
           </div>
         </div>
         <div className="mt-3 flex items-baseline gap-2">
-          <span className="text-3xl font-extrabold text-white tracking-tight">
-            {metrics.totalCommunities.toLocaleString()}
+          <span className="text-3xl font-extrabold text-white tracking-tight tabular-nums">
+            {animatedCommunities}
           </span>
           <span className="text-xs text-slate-400">แห่ง</span>
         </div>
@@ -72,7 +111,7 @@ export function KpiCards({ metrics, selectedYear }: KpiCardsProps) {
           </span>
         </div>
         <p className="mt-2 text-xs text-indigo-300">
-          {metrics.topDistrict.patients.toLocaleString()} ราย ({metrics.topDistrict.percentage}% ของทั้งจังหวัด)
+          <span className="tabular-nums font-semibold">{animatedTopPatients}</span> ราย ({metrics.topDistrict.percentage}% ของทั้งจังหวัด)
         </p>
       </div>
 
@@ -85,8 +124,8 @@ export function KpiCards({ metrics, selectedYear }: KpiCardsProps) {
           </div>
         </div>
         <div className="mt-3 flex items-baseline gap-2">
-          <span className="text-3xl font-extrabold text-white tracking-tight">
-            {metrics.avgPatientsPerCommunity}
+          <span className="text-3xl font-extrabold text-white tracking-tight tabular-nums">
+            {animatedAvgRatio}
           </span>
           <span className="text-xs text-slate-400">ราย / ชุมชน</span>
         </div>

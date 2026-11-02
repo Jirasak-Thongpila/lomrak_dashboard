@@ -100,7 +100,10 @@ export function DataTable({
           <tbody className="divide-y divide-slate-800/60">
             {paginatedRecords.length > 0 ? (
               paginatedRecords.map((r, idx) => {
-                const ratio = r.communityCount > 0 ? (r.patientCount / r.communityCount).toFixed(1) : "0";
+                const numRatio = r.communityCount > 0 ? r.patientCount / r.communityCount : 0;
+                const ratioText = numRatio.toFixed(1);
+                const progressPct = Math.min(Math.round((numRatio / 7.5) * 100), 100);
+
                 return (
                   <tr key={`${r.year}-${r.district}`} className="hover:bg-slate-800/40 transition">
                     <td className="py-2.5 px-4 text-slate-500">{startIndex + idx + 1}</td>
@@ -108,7 +111,17 @@ export function DataTable({
                     <td className="py-2.5 px-4 font-semibold text-emerald-300">{r.district}</td>
                     <td className="py-2.5 px-4 text-right text-slate-200">{r.communityCount}</td>
                     <td className="py-2.5 px-4 text-right font-medium text-white">{r.patientCount}</td>
-                    <td className="py-2.5 px-4 text-right text-teal-400">{ratio}</td>
+                    <td className="py-2.5 px-4 text-right">
+                      <div className="flex items-center justify-end gap-2.5">
+                        <div className="w-14 h-1.5 bg-slate-800 rounded-full overflow-hidden hidden sm:block">
+                          <div
+                            className="h-full bg-gradient-to-r from-teal-500 to-emerald-400 rounded-full transition-all duration-300"
+                            style={{ width: `${progressPct}%` }}
+                          />
+                        </div>
+                        <span className="text-teal-300 font-medium tabular-nums">{ratioText}</span>
+                      </div>
+                    </td>
                   </tr>
                 );
               })

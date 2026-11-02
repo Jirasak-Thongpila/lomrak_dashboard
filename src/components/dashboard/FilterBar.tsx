@@ -1,6 +1,6 @@
 "use client";
 
-import { Search, Calendar, Users, Home } from "lucide-react";
+import { Search, Calendar, Users, Home, RotateCcw } from "lucide-react";
 import type { MetricType } from "@/types/lomrak";
 
 interface FilterBarProps {
@@ -13,6 +13,7 @@ interface FilterBarProps {
   onMetricChange: (metric: MetricType) => void;
   selectedDistrict: string | null;
   onClearDistrict: () => void;
+  onResetAllFilters?: () => void;
 }
 
 export function FilterBar({
@@ -25,7 +26,13 @@ export function FilterBar({
   onMetricChange,
   selectedDistrict,
   onClearDistrict,
+  onResetAllFilters,
 }: FilterBarProps) {
+  const isFiltered =
+    selectedYear !== "all" ||
+    searchQuery.trim().length > 0 ||
+    selectedDistrict !== null;
+
   return (
     <div className="bg-slate-900/60 border border-slate-800 p-4 rounded-2xl flex flex-col md:flex-row items-center justify-between gap-4">
       {/* Year Selector */}
@@ -58,18 +65,32 @@ export function FilterBar({
         ))}
       </div>
 
-      {/* Selected District Tag */}
-      {selectedDistrict && (
-        <div className="flex items-center gap-2 bg-emerald-950/50 border border-emerald-800/80 px-3 py-1 rounded-lg text-xs text-emerald-300">
-          <span>เลือกอำเภอ: <strong>{selectedDistrict}</strong></span>
+      {/* Selected District Tag & Reset All */}
+      <div className="flex flex-wrap items-center gap-2">
+        {selectedDistrict && (
+          <div className="flex items-center gap-2 bg-emerald-950/50 border border-emerald-800/80 px-3 py-1 rounded-lg text-xs text-emerald-300">
+            <span>เลือกอำเภอ: <strong>{selectedDistrict}</strong></span>
+            <button
+              onClick={onClearDistrict}
+              className="text-emerald-400 hover:text-white ml-1 font-bold"
+              title="ยกเลิกการเลือกอำเภอ"
+            >
+              ×
+            </button>
+          </div>
+        )}
+
+        {isFiltered && onResetAllFilters && (
           <button
-            onClick={onClearDistrict}
-            className="text-emerald-400 hover:text-white ml-1 font-bold"
+            onClick={onResetAllFilters}
+            className="flex items-center gap-1 px-2.5 py-1 bg-rose-950/40 hover:bg-rose-900/60 text-rose-300 border border-rose-800/50 rounded-lg text-xs font-medium transition"
+            title="ล้างเงื่อนไขการค้นหาและฟิลเตอร์ทั้งหมด"
           >
-            ×
+            <RotateCcw className="w-3 h-3" />
+            <span>ล้างตัวกรองทั้งหมด</span>
           </button>
-        </div>
-      )}
+        )}
+      </div>
 
       {/* Metric Switcher & District Search */}
       <div className="flex items-center gap-3 w-full md:w-auto">
