@@ -30,11 +30,11 @@ export function DistrictBarChart({
   const title = metric === "patients" ? "จัดอันดับอำเภอ (ผู้ป่วยเข้ารับบำบัด)" : "จัดอันดับอำเภอ (จำนวนชุมชนล้อมรักษ์)";
 
   return (
-    <div className="bg-slate-900/70 border border-slate-800 rounded-2xl p-5">
+    <div className="bg-white border border-pink-100 rounded-2xl p-5 shadow-sm">
       <div className="flex items-center justify-between mb-4">
         <div>
-          <h3 className="font-semibold text-white text-sm">{title}</h3>
-          <p className="text-xs text-slate-400">แสดง 12 อันดับสูงสุด (คลิกแท่งกราฟเพื่อเจาะจงอำเภอ)</p>
+          <h3 className="font-bold text-slate-900 text-base">{title}</h3>
+          <p className="text-xs text-slate-500">แสดง 12 อันดับสูงสุด (คลิกแท่งกราฟเพื่อเจาะจงอำเภอ)</p>
         </div>
       </div>
 
@@ -55,15 +55,15 @@ export function DistrictBarChart({
                 if (active && payload && payload.length) {
                   const item = payload[0].payload as DistrictSummary;
                   return (
-                    <div className="bg-slate-950 border border-slate-800 p-3 rounded-xl shadow-xl text-xs space-y-1">
-                      <p className="font-semibold text-emerald-300">{item.district}</p>
-                      <p className="text-slate-200">
-                        ผู้ป่วยบำบัด: <strong className="text-white">{item.totalPatients} ราย</strong>
+                    <div className="bg-white border border-pink-200 p-3 rounded-xl shadow-xl text-xs space-y-1">
+                      <p className="font-semibold text-pink-700">{item.district}</p>
+                      <p className="text-slate-700">
+                        ผู้ป่วยบำบัด: <strong className="text-slate-900">{item.totalPatients} ราย</strong>
                       </p>
-                      <p className="text-slate-300">
+                      <p className="text-slate-600">
                         ชุมชนล้อมรักษ์: <strong>{item.totalCommunities} แห่ง</strong>
                       </p>
-                      <p className="text-slate-400">เฉลี่ย: {item.avgRatio} ราย/ชุมชน</p>
+                      <p className="text-slate-500">เฉลี่ย: {item.avgRatio} ราย/ชุมชน</p>
                     </div>
                   );
                 }
@@ -83,10 +83,10 @@ export function DistrictBarChart({
                     key={`cell-${index}`}
                     fill={
                       isSelected
-                        ? "#10b981"
+                        ? "#ec4899"
                         : metric === "patients"
-                        ? "#059669"
-                        : "#0d9488"
+                        ? "#db2777"
+                        : "#c026d3"
                     }
                     opacity={selectedDistrict && !isSelected ? 0.4 : 1}
                   />
