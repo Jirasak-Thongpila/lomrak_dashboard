@@ -146,18 +146,16 @@ export default function DashboardPage() {
 
         <KpiCards metrics={kpis} selectedYear={selectedYear} />
 
-        {/* District Bar Chart */}
-        <div>
+        {/* District Charts */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-stretch">
           <DistrictBarChart
             data={districtSummaries}
             metric={metric}
             selectedDistrict={selectedDistrict}
             onSelectDistrict={handleDistrictSelect}
           />
+          <YearlyTrendChart data={yearlyTrends} />
         </div>
-
-        {/* Yearly Trend Chart */}
-        <YearlyTrendChart data={yearlyTrends} />
 
         {/* Data Table */}
         <DataTable

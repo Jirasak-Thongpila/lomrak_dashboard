@@ -16,13 +16,13 @@ interface YearlyTrendChartProps {
 
 export function YearlyTrendChart({ data }: YearlyTrendChartProps) {
   return (
-    <div className="bg-white border border-pink-100 rounded-2xl p-5 shadow-sm">
-      <div className="mb-4">
+    <div className="h-full min-h-[25rem] bg-white border border-pink-100 rounded-2xl p-5 shadow-sm flex flex-col">
+      <div className="min-h-12 mb-4">
         <h3 className="font-bold text-slate-900 text-base">แนวโน้มการดำเนินงานรายปี พ.ศ.</h3>
         <p className="text-xs text-slate-500">เปรียบเทียบการเติบโตของผู้ป่วยบำบัดและจำนวนชุมชน</p>
       </div>
 
-      <div className="h-72 w-full">
+      <div className="h-72 min-h-72 w-full flex-1">
         <ResponsiveContainer width="100%" height="100%">
           <AreaChart data={data} margin={{ top: 10, right: 10, left: -20, bottom: 5 }}>
             <defs>
