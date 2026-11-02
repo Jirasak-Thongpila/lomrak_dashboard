@@ -2,9 +2,6 @@ import { NextResponse } from "next/server";
 import fallbackRecords from "@/data/fallback-lomrak.json";
 import type { LomrakApiResponse, LomrakRecord } from "@/types/lomrak";
 
-export const dynamic = "force-dynamic";
-export const revalidate = 0;
-
 export async function GET(request: Request) {
   const gasUrl = process.env.GAS_API_URL || process.env.NEXT_PUBLIC_GAS_API_URL;
 

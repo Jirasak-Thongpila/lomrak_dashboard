@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useState, useMemo, useRef, useCallback } from "react";
 import { Header } from "@/components/dashboard/Header";
 import { FilterBar } from "@/components/dashboard/FilterBar";
 import { KpiCards } from "@/components/dashboard/KpiCards";
@@ -27,6 +27,7 @@ export default function DashboardPage() {
   const [dataResponse, setDataResponse] = useState<LomrakApiResponse | null>(null);
   const [loading, setLoading] = useState(true);
   const [isRefreshing, setIsRefreshing] = useState(false);
+  const [isSilentSyncing, setIsSilentSyncing] = useState(false);
   const [isGasModalOpen, setIsGasModalOpen] = useState(false);
 
   // Filters & State
@@ -39,24 +40,62 @@ export default function DashboardPage() {
     direction: "desc",
   });
 
-  const fetchData = async (forceRefresh = false) => {
+  const lastFetchTimeRef = useRef<number>(0);
+
+  const fetchData = useCallback(async (isManual = false, isSilent = false) => {
     try {
-      if (forceRefresh) setIsRefreshing(true);
-      const url = forceRefresh ? "/api/lomrak?refresh=true" : "/api/lomrak";
-      const res = await fetch(url);
+      if (isManual) {
+        setIsRefreshing(true);
+      } else if (isSilent) {
+        setIsSilentSyncing(true);
+      }
+
+      // Fetch On-The-Fly from Route Handler
+      const res = await fetch("/api/lomrak");
       const json: LomrakApiResponse = await res.json();
       setDataResponse(json);
+      lastFetchTimeRef.current = Date.now();
     } catch (err) {
       console.error("Failed to load Lomrak data:", err);
     } finally {
       setLoading(false);
       setIsRefreshing(false);
+      setIsSilentSyncing(false);
     }
-  };
+  }, []);
 
   useEffect(() => {
+    // 1. Initial Load
     fetchData();
-  }, []);
+
+    // 2. Auto Tab Focus Sync (when user switches back from Google Sheets)
+    const handleFocusSync = () => {
+      const now = Date.now();
+      // Throttle: avoid rapid repeat syncs if focus occurs within 10 seconds
+      if (now - lastFetchTimeRef.current > 10000) {
+        fetchData(false, true);
+      }
+    };
+
+    // 3. Background Polling every 30 seconds
+    const intervalId = setInterval(() => {
+      fetchData(false, true);
+    }, 30000);
+
+    window.addEventListener("focus", handleFocusSync);
+    const handleVisibility = () => {
+      if (document.visibilityState === "visible") {
+        handleFocusSync();
+      }
+    };
+    document.addEventListener("visibilitychange", handleVisibility);
+
+    return () => {
+      window.removeEventListener("focus", handleFocusSync);
+      document.removeEventListener("visibilitychange", handleVisibility);
+      clearInterval(intervalId);
+    };
+  }, [fetchData]);
 
   const rawRecords = useMemo(() => dataResponse?.data || [], [dataResponse]);
 
@@ -127,7 +166,8 @@ export default function DashboardPage() {
         source={dataResponse?.source || "fallback_cache"}
         updatedAt={dataResponse?.updatedAt || new Date().toISOString()}
         isRefreshing={isRefreshing}
-        onRefresh={() => fetchData(true)}
+        isSilentSyncing={isSilentSyncing}
+        onRefresh={() => fetchData(true, false)}
         onExportCsv={handleExportCsv}
         onOpenGasSetup={() => setIsGasModalOpen(true)}
       />

@@ -1,11 +1,20 @@
 "use client";
 
-import { RefreshCw, Download, Settings, HeartPulse, CheckCircle2, AlertCircle } from "lucide-react";
+import {
+  RefreshCw,
+  Download,
+  Settings,
+  HeartPulse,
+  CheckCircle2,
+  AlertCircle,
+  Radio,
+} from "lucide-react";
 
 interface HeaderProps {
   source: "google_sheets" | "fallback_cache";
   updatedAt: string;
   isRefreshing: boolean;
+  isSilentSyncing?: boolean;
   onRefresh: () => void;
   onExportCsv: () => void;
   onOpenGasSetup: () => void;
@@ -15,6 +24,7 @@ export function Header({
   source,
   updatedAt,
   isRefreshing,
+  isSilentSyncing = false,
   onRefresh,
   onExportCsv,
   onOpenGasSetup,
@@ -23,6 +33,7 @@ export function Header({
   const formattedTime = new Date(updatedAt).toLocaleTimeString("th-TH", {
     hour: "2-digit",
     minute: "2-digit",
+    second: "2-digit",
   });
 
   return (
@@ -48,6 +59,28 @@ export function Header({
         </div>
 
         <div className="flex flex-wrap items-center gap-2.5">
+          {/* Live Auto-Sync Indicator */}
+          <div
+            title="ระบบดึงข้อมูลสด On-The-Fly อัตโนมัติเมื่อสลับแท็บ และทุก 30 วินาที"
+            className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-medium bg-slate-950/70 border border-slate-800 text-slate-300"
+          >
+            <span className="relative flex h-2 w-2">
+              <span
+                className={`animate-ping absolute inline-flex h-full w-full rounded-full opacity-75 ${
+                  isSilentSyncing ? "bg-amber-400" : "bg-emerald-400"
+                }`}
+              />
+              <span
+                className={`relative inline-flex rounded-full h-2 w-2 ${
+                  isSilentSyncing ? "bg-amber-500" : "bg-emerald-500"
+                }`}
+              />
+            </span>
+            <span className="text-[11px] text-slate-400">
+              {isSilentSyncing ? "กำลังซิงค์สด..." : "On-The-Fly 30s"}
+            </span>
+          </div>
+
           {/* Connection status badge */}
           <button
             onClick={onOpenGasSetup}
@@ -67,13 +100,18 @@ export function Header({
             <span className="text-slate-400 text-[11px]">• {formattedTime}</span>
           </button>
 
-          {/* Sync Button */}
+          {/* Manual Refresh Button */}
           <button
             onClick={onRefresh}
-            disabled={isRefreshing}
+            disabled={isRefreshing || isSilentSyncing}
+            title="ดึงข้อมูลสดทันที"
             className="flex items-center gap-1.5 px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-lg text-xs font-medium transition disabled:opacity-50 border border-slate-700"
           >
-            <RefreshCw className={`w-3.5 h-3.5 ${isRefreshing ? "animate-spin text-emerald-400" : ""}`} />
+            <RefreshCw
+              className={`w-3.5 h-3.5 ${
+                isRefreshing || isSilentSyncing ? "animate-spin text-emerald-400" : ""
+              }`}
+            />
             <span>ซิงค์ข้อมูล</span>
           </button>
 
