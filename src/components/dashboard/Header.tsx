@@ -45,7 +45,7 @@ export function Header({
     <header className="bg-white/95 backdrop-blur-md border-b border-slate-200 sticky top-0 z-40 shadow-xs">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
         <div className="flex items-center gap-3">
-          <div className="w-11 h-11 rounded-xl bg-gradient-to-tr from-emerald-600 to-teal-500 flex items-center justify-center text-white shadow-md shadow-emerald-600/20">
+          <div className="w-11 h-11 rounded-xl bg-gradient-to-tr from-rose-500 to-pink-500 flex items-center justify-center text-white shadow-md shadow-pink-500/20">
             <HeartPulse className="w-6 h-6 animate-pulse" />
           </div>
           <div>
@@ -53,13 +53,13 @@ export function Header({
               <h1 className="text-lg md:text-xl font-bold text-slate-900 tracking-tight">
                 หมู่บ้านชุมชนล้อมรักษ์
               </h1>
-              <span className="bg-emerald-50 text-emerald-700 text-xs px-2.5 py-0.5 rounded-full font-medium border border-emerald-200">
+              <span className="bg-pink-50 text-pink-700 text-xs px-2.5 py-0.5 rounded-full font-medium border border-pink-200">
                 จ.ศรีสะเกษ
               </span>
               {onOpenProjectInfo && (
                 <button
                   onClick={onOpenProjectInfo}
-                  className="flex items-center gap-1 text-[11px] bg-emerald-50 hover:bg-emerald-100 text-emerald-700 px-2 py-0.5 rounded-lg border border-emerald-200 transition font-medium"
+                  className="flex items-center gap-1 text-[11px] bg-pink-50 hover:bg-pink-100 text-pink-700 px-2 py-0.5 rounded-lg border border-pink-200 transition font-medium"
                   title="ดูรายละเอียดโครงการ CBTx และชุมชนล้อมรักษ์"
                 >
                   <HelpCircle className="w-3.5 h-3.5" />
@@ -85,7 +85,7 @@ export function Header({
                   isSilentSyncing
                     ? "bg-amber-400"
                     : sseStatus === "connected"
-                    ? "bg-emerald-400"
+                    ? "bg-pink-400"
                     : "bg-slate-400"
                 }`}
               />
@@ -94,7 +94,7 @@ export function Header({
                   isSilentSyncing
                     ? "bg-amber-500"
                     : sseStatus === "connected"
-                    ? "bg-emerald-600"
+                    ? "bg-pink-600"
                     : "bg-slate-400"
                 }`}
               />
@@ -114,12 +114,12 @@ export function Header({
             title="คลิกเพื่อดูการตั้งค่า Google Apps Script"
             className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium border transition ${
               isOnline
-                ? "bg-emerald-50 text-emerald-700 border-emerald-200 hover:bg-emerald-100"
+                ? "bg-pink-50 text-pink-700 border-pink-200 hover:bg-pink-100"
                 : "bg-amber-50 text-amber-700 border-amber-200 hover:bg-amber-100"
             }`}
           >
             {isOnline ? (
-              <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
+              <CheckCircle2 className="w-3.5 h-3.5 text-pink-600" />
             ) : (
               <AlertCircle className="w-3.5 h-3.5 text-amber-600" />
             )}
@@ -136,7 +136,7 @@ export function Header({
           >
             <RefreshCw
               className={`w-3.5 h-3.5 ${
-                isRefreshing || isSilentSyncing ? "animate-spin text-emerald-600" : ""
+                isRefreshing || isSilentSyncing ? "animate-spin text-pink-600" : ""
               }`}
             />
             <span>ซิงค์ข้อมูล</span>
@@ -145,7 +145,7 @@ export function Header({
           {/* Export CSV */}
           <button
             onClick={onExportCsv}
-            className="flex items-center gap-1.5 px-3 py-1.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg text-xs font-medium transition shadow-sm shadow-emerald-600/20"
+            className="flex items-center gap-1.5 px-3 py-1.5 bg-pink-600 hover:bg-pink-500 text-white rounded-lg text-xs font-medium transition shadow-sm shadow-pink-600/20"
           >
             <Download className="w-3.5 h-3.5" />
             <span>ส่งออก CSV</span>

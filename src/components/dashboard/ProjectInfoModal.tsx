@@ -14,16 +14,16 @@ export function ProjectInfoModal({ isOpen, onClose }: ProjectInfoModalProps) {
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/50 backdrop-blur-xs p-4 animate-in fade-in duration-200">
       <div className="bg-white border border-slate-200 rounded-3xl max-w-2xl w-full max-h-[90vh] flex flex-col shadow-2xl text-slate-800 overflow-hidden">
         {/* Modal Header */}
-        <div className="flex items-center justify-between p-6 border-b border-slate-200 bg-gradient-to-r from-emerald-50 via-teal-50 to-slate-50">
+        <div className="flex items-center justify-between p-6 border-b border-slate-200 bg-gradient-to-r from-pink-50 via-rose-50 to-slate-50">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-emerald-600 text-white flex items-center justify-center shadow-xs">
+            <div className="w-10 h-10 rounded-xl bg-pink-600 text-white flex items-center justify-center shadow-xs">
               <HeartHandshake className="w-6 h-6" />
             </div>
             <div>
               <h3 className="font-bold text-lg text-slate-900">
                 โครงการหมู่บ้านชุมชนล้อมรักษ์ จ.ศรีสะเกษ
               </h3>
-              <p className="text-xs text-emerald-700 font-medium">
+              <p className="text-xs text-pink-700 font-medium">
                 CBTx (Community Based Treatment and Rehabilitation)
               </p>
             </div>
@@ -41,7 +41,7 @@ export function ProjectInfoModal({ isOpen, onClose }: ProjectInfoModalProps) {
           {/* Section 1: What is Lomrak */}
           <div className="space-y-2">
             <h4 className="font-semibold text-slate-900 flex items-center gap-2 text-sm">
-              <Sparkles className="w-4 h-4 text-emerald-600" />
+              <Sparkles className="w-4 h-4 text-pink-600" />
               ชุมชนล้อมรักษ์ คืออะไร?
             </h4>
             <p className="text-slate-600 text-xs leading-relaxed">
@@ -55,30 +55,30 @@ export function ProjectInfoModal({ isOpen, onClose }: ProjectInfoModalProps) {
           {/* Section 2: 4 Core Pillars */}
           <div className="space-y-3">
             <h4 className="font-semibold text-slate-900 flex items-center gap-2 text-sm">
-              <ShieldCheck className="w-4 h-4 text-teal-600" />
+              <ShieldCheck className="w-4 h-4 text-rose-600" />
               4 เสาหลักการดำเนินงานใน 22 อำเภอ
             </h4>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div className="bg-slate-50 border border-slate-200 p-3.5 rounded-2xl">
-                <span className="text-emerald-700 font-bold text-xs block mb-1">1. ค้นหาและคัดกรอง</span>
+                <span className="text-pink-700 font-bold text-xs block mb-1">1. ค้นหาและคัดกรอง</span>
                 <p className="text-slate-600 text-xs">
                   ผู้นำชุมชน อสม. และฝ่ายปกครอง ร่วมค้นหาผู้ใช้ยาเสพติดด้วยความสมัครใจ
                 </p>
               </div>
               <div className="bg-slate-50 border border-slate-200 p-3.5 rounded-2xl">
-                <span className="text-teal-700 font-bold text-xs block mb-1">2. บำบัดฟื้นฟูโดยชุมชน</span>
+                <span className="text-rose-700 font-bold text-xs block mb-1">2. บำบัดฟื้นฟูโดยชุมชน</span>
                 <p className="text-slate-600 text-xs">
                   การให้คำปรึกษา บำบัดรักษาทางกายและใจร่วมกับ รพ.สต. และโรงพยาบาลชุมชน
                 </p>
               </div>
               <div className="bg-slate-50 border border-slate-200 p-3.5 rounded-2xl">
-                <span className="text-sky-700 font-bold text-xs block mb-1">3. ฟื้นฟูสภาพทางสังคม</span>
+                <span className="text-fuchsia-700 font-bold text-xs block mb-1">3. ฟื้นฟูสภาพทางสังคม</span>
                 <p className="text-slate-600 text-xs">
                   ฝึกทักษะอาชีพ สร้างรายได้ และสร้างการยอมรับจากครอบครัวและเพื่อนบ้าน
                 </p>
               </div>
               <div className="bg-slate-50 border border-slate-200 p-3.5 rounded-2xl">
-                <span className="text-indigo-700 font-bold text-xs block mb-1">4. ติดตามดูแลต่อเนื่อง</span>
+                <span className="text-purple-700 font-bold text-xs block mb-1">4. ติดตามดูแลต่อเนื่อง</span>
                 <p className="text-slate-600 text-xs">
                   มีพี่เลี้ยงดูแลใกล้ชิดอย่างน้อย 1 ปี ป้องกันการกลับไปเสพซ้ำ
                 </p>
@@ -87,10 +87,10 @@ export function ProjectInfoModal({ isOpen, onClose }: ProjectInfoModalProps) {
           </div>
 
           {/* Section 3: Hotlines & Support */}
-          <div className="bg-emerald-50 border border-emerald-200 p-4 rounded-2xl flex items-start gap-3">
-            <PhoneCall className="w-5 h-5 text-emerald-600 shrink-0 mt-0.5" />
+          <div className="bg-pink-50 border border-pink-200 p-4 rounded-2xl flex items-start gap-3">
+            <PhoneCall className="w-5 h-5 text-pink-600 shrink-0 mt-0.5" />
             <div className="text-xs space-y-1">
-              <p className="font-semibold text-emerald-800">ปรึกษาปัญหาหรือขอรับการบำบัดรักษาฟื้นฟู:</p>
+              <p className="font-semibold text-pink-800">ปรึกษาปัญหาหรือขอรับการบำบัดรักษาฟื้นฟู:</p>
               <p className="text-slate-700">
                 ติดต่อได้ที่ โรงพยาบาลส่งเสริมสุขภาพตำบล (รพ.สต.), โรงพยาบาลชุมชนทุกแห่งใน จ.ศรีสะเกษ 
                 หรือสายด่วนบำบัดยาเสพติด <strong className="text-slate-900 font-bold">1165</strong> (โทรฟรี 24 ชั่วโมง)

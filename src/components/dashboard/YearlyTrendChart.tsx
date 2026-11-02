@@ -27,12 +27,12 @@ export function YearlyTrendChart({ data }: YearlyTrendChartProps) {
           <AreaChart data={data} margin={{ top: 10, right: 10, left: -20, bottom: 5 }}>
             <defs>
               <linearGradient id="patientsColor" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor="#10b981" stopOpacity={0.35} />
-                <stop offset="95%" stopColor="#10b981" stopOpacity={0.0} />
+                <stop offset="5%" stopColor="#ec4899" stopOpacity={0.35} />
+                <stop offset="95%" stopColor="#ec4899" stopOpacity={0.0} />
               </linearGradient>
               <linearGradient id="communitiesColor" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor="#0ea5e9" stopOpacity={0.35} />
-                <stop offset="95%" stopColor="#0ea5e9" stopOpacity={0.0} />
+                <stop offset="5%" stopColor="#f43f5e" stopOpacity={0.35} />
+                <stop offset="95%" stopColor="#f43f5e" stopOpacity={0.0} />
               </linearGradient>
             </defs>
             <XAxis dataKey="year" stroke="#64748b" fontSize={11} />
@@ -43,11 +43,11 @@ export function YearlyTrendChart({ data }: YearlyTrendChartProps) {
                   return (
                     <div className="bg-white border border-slate-200 p-3 rounded-xl shadow-xl text-xs space-y-1">
                       <p className="font-semibold text-slate-800">ประจำปี พ.ศ. {label}</p>
-                      <p className="text-emerald-700">
-                        ผู้ป่วยบำบัด: <strong className="text-emerald-950">{payload[0]?.value} ราย</strong>
+                      <p className="text-pink-700">
+                        ผู้ป่วยบำบัด: <strong className="text-pink-950">{payload[0]?.value} ราย</strong>
                       </p>
-                      <p className="text-sky-700">
-                        ชุมชนล้อมรักษ์: <strong className="text-sky-950">{payload[1]?.value} แห่ง</strong>
+                      <p className="text-rose-700">
+                        ชุมชนล้อมรักษ์: <strong className="text-rose-950">{payload[1]?.value} แห่ง</strong>
                       </p>
                     </div>
                   );
@@ -62,7 +62,7 @@ export function YearlyTrendChart({ data }: YearlyTrendChartProps) {
             <Area
               type="monotone"
               dataKey="totalPatients"
-              stroke="#10b981"
+              stroke="#ec4899"
               strokeWidth={2}
               fillOpacity={1}
               fill="url(#patientsColor)"
@@ -70,7 +70,7 @@ export function YearlyTrendChart({ data }: YearlyTrendChartProps) {
             <Area
               type="monotone"
               dataKey="totalCommunities"
-              stroke="#0ea5e9"
+              stroke="#f43f5e"
               strokeWidth={2}
               fillOpacity={1}
               fill="url(#communitiesColor)"

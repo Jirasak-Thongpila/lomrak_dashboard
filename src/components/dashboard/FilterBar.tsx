@@ -44,7 +44,7 @@ export function FilterBar({
           onClick={() => onSelectYear("all")}
           className={`px-3 py-1.5 rounded-lg text-xs font-medium transition whitespace-nowrap ${
             selectedYear === "all"
-              ? "bg-emerald-600 text-white shadow-xs"
+              ? "bg-pink-600 text-white shadow-xs"
               : "bg-slate-100 text-slate-600 hover:bg-slate-200"
           }`}
         >
@@ -56,7 +56,7 @@ export function FilterBar({
             onClick={() => onSelectYear(y)}
             className={`px-3 py-1.5 rounded-lg text-xs font-medium transition whitespace-nowrap ${
               selectedYear === y
-                ? "bg-emerald-600 text-white shadow-xs"
+                ? "bg-pink-600 text-white shadow-xs"
                 : "bg-slate-100 text-slate-600 hover:bg-slate-200"
             }`}
           >
@@ -68,11 +68,11 @@ export function FilterBar({
       {/* Selected District Tag & Reset All */}
       <div className="flex flex-wrap items-center gap-2">
         {selectedDistrict && (
-          <div className="flex items-center gap-2 bg-emerald-50 border border-emerald-200 px-3 py-1 rounded-lg text-xs text-emerald-800 font-medium">
+          <div className="flex items-center gap-2 bg-pink-50 border border-pink-200 px-3 py-1 rounded-lg text-xs text-pink-800 font-medium">
             <span>เลือกอำเภอ: <strong>{selectedDistrict}</strong></span>
             <button
               onClick={onClearDistrict}
-              className="text-emerald-600 hover:text-emerald-900 ml-1 font-bold"
+              className="text-pink-600 hover:text-pink-900 ml-1 font-bold"
               title="ยกเลิกการเลือกอำเภอ"
             >
               ×
@@ -99,7 +99,7 @@ export function FilterBar({
             onClick={() => onMetricChange("patients")}
             className={`flex items-center gap-1 px-3 py-1 rounded-lg text-xs font-medium transition ${
               metric === "patients"
-                ? "bg-emerald-600 text-white shadow-xs"
+                ? "bg-pink-600 text-white shadow-xs"
                 : "text-slate-600 hover:text-slate-900"
             }`}
           >
@@ -110,7 +110,7 @@ export function FilterBar({
             onClick={() => onMetricChange("communities")}
             className={`flex items-center gap-1 px-3 py-1 rounded-lg text-xs font-medium transition ${
               metric === "communities"
-                ? "bg-emerald-600 text-white shadow-xs"
+                ? "bg-pink-600 text-white shadow-xs"
                 : "text-slate-600 hover:text-slate-900"
             }`}
           >
@@ -126,7 +126,7 @@ export function FilterBar({
             placeholder="ค้นหาชื่ออำเภอ..."
             value={searchQuery}
             onChange={(e) => onSearchChange(e.target.value)}
-            className="w-full bg-slate-50 border border-slate-200 rounded-xl pl-9 pr-3 py-1.5 text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:border-emerald-500 focus:bg-white transition"
+            className="w-full bg-slate-50 border border-slate-200 rounded-xl pl-9 pr-3 py-1.5 text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:border-pink-500 focus:bg-white transition"
           />
         </div>
       </div>

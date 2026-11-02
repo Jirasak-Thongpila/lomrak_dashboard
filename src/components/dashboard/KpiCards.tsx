@@ -50,10 +50,10 @@ export function KpiCards({ metrics, selectedYear }: KpiCardsProps) {
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
       {/* Card 1: Total Patients */}
-      <div className="bg-white border border-slate-200 rounded-2xl p-5 relative overflow-hidden group hover:border-emerald-500 hover:shadow-md transition shadow-xs">
+      <div className="bg-white border border-slate-200 rounded-2xl p-5 relative overflow-hidden group hover:border-pink-500 hover:shadow-md transition shadow-xs">
         <div className="flex items-center justify-between">
           <span className="text-xs font-medium text-slate-500">ผู้ป่วยเข้ารับบำบัดรวม</span>
-          <div className="w-9 h-9 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center border border-emerald-100">
+          <div className="w-9 h-9 rounded-xl bg-pink-50 text-pink-600 flex items-center justify-center border border-pink-100">
             <Users className="w-5 h-5" />
           </div>
         </div>
@@ -66,7 +66,7 @@ export function KpiCards({ metrics, selectedYear }: KpiCardsProps) {
         {metrics.yearOverYearGrowth !== null && (
           <div className="mt-2 flex items-center gap-1 text-xs font-medium">
             {metrics.yearOverYearGrowth >= 0 ? (
-              <span className="flex items-center text-emerald-600">
+              <span className="flex items-center text-pink-600">
                 <TrendingUp className="w-3.5 h-3.5 mr-0.5" />+{metrics.yearOverYearGrowth}%
               </span>
             ) : (
@@ -80,10 +80,10 @@ export function KpiCards({ metrics, selectedYear }: KpiCardsProps) {
       </div>
 
       {/* Card 2: Total Communities */}
-      <div className="bg-white border border-slate-200 rounded-2xl p-5 relative overflow-hidden group hover:border-teal-500 hover:shadow-md transition shadow-xs">
+      <div className="bg-white border border-slate-200 rounded-2xl p-5 relative overflow-hidden group hover:border-rose-500 hover:shadow-md transition shadow-xs">
         <div className="flex items-center justify-between">
           <span className="text-xs font-medium text-slate-500">หมู่บ้าน/ชุมชนล้อมรักษ์</span>
-          <div className="w-9 h-9 rounded-xl bg-teal-50 text-teal-600 flex items-center justify-center border border-teal-100">
+          <div className="w-9 h-9 rounded-xl bg-rose-50 text-rose-600 flex items-center justify-center border border-rose-100">
             <Home className="w-5 h-5" />
           </div>
         </div>
@@ -97,10 +97,10 @@ export function KpiCards({ metrics, selectedYear }: KpiCardsProps) {
       </div>
 
       {/* Card 3: Top District */}
-      <div className="bg-white border border-slate-200 rounded-2xl p-5 relative overflow-hidden group hover:border-indigo-500 hover:shadow-md transition shadow-xs">
+      <div className="bg-white border border-slate-200 rounded-2xl p-5 relative overflow-hidden group hover:border-fuchsia-500 hover:shadow-md transition shadow-xs">
         <div className="flex items-center justify-between">
           <span className="text-xs font-medium text-slate-500">อำเภอที่มีผู้บำบัดสูงสุด</span>
-          <div className="w-9 h-9 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center border border-indigo-100">
+          <div className="w-9 h-9 rounded-xl bg-fuchsia-50 text-fuchsia-600 flex items-center justify-center border border-fuchsia-100">
             <Award className="w-5 h-5" />
           </div>
         </div>
@@ -109,16 +109,16 @@ export function KpiCards({ metrics, selectedYear }: KpiCardsProps) {
             {metrics.topDistrict.name}
           </span>
         </div>
-        <p className="mt-2 text-xs text-indigo-600 font-medium">
+        <p className="mt-2 text-xs text-fuchsia-600 font-medium">
           <span className="tabular-nums font-bold">{animatedTopPatients}</span> ราย ({metrics.topDistrict.percentage}% ของทั้งจังหวัด)
         </p>
       </div>
 
       {/* Card 4: Patients per community */}
-      <div className="bg-white border border-slate-200 rounded-2xl p-5 relative overflow-hidden group hover:border-sky-500 hover:shadow-md transition shadow-xs">
+      <div className="bg-white border border-slate-200 rounded-2xl p-5 relative overflow-hidden group hover:border-pink-400 hover:shadow-md transition shadow-xs">
         <div className="flex items-center justify-between">
           <span className="text-xs font-medium text-slate-500">อัตราเฉลี่ยผู้ป่วยต่อชุมชน</span>
-          <div className="w-9 h-9 rounded-xl bg-sky-50 text-sky-600 flex items-center justify-center border border-sky-100">
+          <div className="w-9 h-9 rounded-xl bg-pink-50 text-pink-600 flex items-center justify-center border border-pink-100">
             <Users className="w-5 h-5" />
           </div>
         </div>

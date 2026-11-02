@@ -56,7 +56,7 @@ export function DistrictBarChart({
                   const item = payload[0].payload as DistrictSummary;
                   return (
                     <div className="bg-white border border-slate-200 p-3 rounded-xl shadow-xl text-xs space-y-1">
-                      <p className="font-semibold text-emerald-700">{item.district}</p>
+                      <p className="font-semibold text-pink-700">{item.district}</p>
                       <p className="text-slate-600">
                         ผู้ป่วยบำบัด: <strong className="text-slate-900">{item.totalPatients} ราย</strong>
                       </p>
@@ -83,10 +83,10 @@ export function DistrictBarChart({
                     key={`cell-${index}`}
                     fill={
                       isSelected
-                        ? "#059669"
+                        ? "#db2777"
                         : metric === "patients"
-                        ? "#10b981"
-                        : "#0d9488"
+                        ? "#ec4899"
+                        : "#f43f5e"
                     }
                     opacity={selectedDistrict && !isSelected ? 0.35 : 1}
                   />

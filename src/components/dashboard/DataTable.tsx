@@ -40,7 +40,7 @@ export function DataTable({
           onClick={onExportCsv}
           className="flex items-center gap-1.5 px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg text-xs font-medium transition border border-slate-200 self-start sm:self-auto"
         >
-          <Download className="w-3.5 h-3.5 text-emerald-600" />
+          <Download className="w-3.5 h-3.5 text-pink-600" />
           <span>ส่งออกข้อมูลตารางนี้</span>
         </button>
       </div>
@@ -108,18 +108,18 @@ export function DataTable({
                   <tr key={`${r.year}-${r.district}`} className="hover:bg-slate-50/80 transition">
                     <td className="py-2.5 px-4 text-slate-400">{startIndex + idx + 1}</td>
                     <td className="py-2.5 px-4 font-medium text-slate-700">{r.year}</td>
-                    <td className="py-2.5 px-4 font-semibold text-emerald-700">{r.district}</td>
+                    <td className="py-2.5 px-4 font-semibold text-pink-700">{r.district}</td>
                     <td className="py-2.5 px-4 text-right text-slate-700">{r.communityCount}</td>
                     <td className="py-2.5 px-4 text-right font-bold text-slate-900">{r.patientCount}</td>
                     <td className="py-2.5 px-4 text-right">
                       <div className="flex items-center justify-end gap-2.5">
                         <div className="w-14 h-1.5 bg-slate-100 rounded-full overflow-hidden hidden sm:block">
                           <div
-                            className="h-full bg-gradient-to-r from-teal-500 to-emerald-500 rounded-full transition-all duration-300"
+                            className="h-full bg-gradient-to-r from-pink-500 to-rose-400 rounded-full transition-all duration-300"
                             style={{ width: `${progressPct}%` }}
                           />
                         </div>
-                        <span className="text-teal-700 font-semibold tabular-nums">{ratioText}</span>
+                        <span className="text-pink-700 font-semibold tabular-nums">{ratioText}</span>
                       </div>
                     </td>
                   </tr>
