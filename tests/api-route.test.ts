@@ -7,6 +7,10 @@ describe("Lomrak API Route Handler", () => {
     const response = await GET(req);
     expect(response.status).toBe(200);
 
+    // Verify On-The-Fly no-cache headers
+    const cacheControl = response.headers.get("Cache-Control");
+    expect(cacheControl).toContain("no-store");
+
     const data = await response.json();
     expect(data.status).toBe("success");
     expect(data.source).toBe("fallback_cache");

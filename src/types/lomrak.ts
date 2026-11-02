@@ -46,3 +46,11 @@ export interface KpiMetrics {
   avgPatientsPerCommunity: number;
   yearOverYearGrowth: number | null;
 }
+
+export interface LomrakChangeEvent {
+  type: 'data-changed';
+  timestamp: string;
+  source?: string;
+}
+
+export type SseConnectionStatus = 'connecting' | 'connected' | 'disconnected';
